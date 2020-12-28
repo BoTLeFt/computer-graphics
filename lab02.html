@@ -1,39 +1,36 @@
 <HTML>
 <BODY>
-<canvas id='lab02' height='700' width='700' style='border:1px solid'>
-</canvas>
-<canvas id='lab02_2' height='700' width='700' style='border:1px solid'>
-</canvas>
-<a href='#' id='btn' class='button' style='font-size: 500%'>(☞ﾟヮﾟ)☞  ☜(ﾟヮﾟ☜)</a>
 
-<script>
+<canvas id='lab02' height='570' width='570' style='border: 1px solid'>
+</canvas>
+<canvas id='lab02_2' height='570' width='570' style='border: 1px solid'>
+</canvas>
+
+<script type="text/javascript">
 	var canvas = document.getElementById('lab02');
 	var ctx = canvas.getContext('2d');
-
 	var canvas2 = document.getElementById('lab02_2');
 	var ctx2 = canvas2.getContext('2d');
-
-	var img = new Image();
+	
+	let img = new Image();
 	img.src = 'test.png';
-
-	img.onload = function() {
+	img.onload = function(){
 		ctx.drawImage(img, 0, 0);
-	};
-	var grayscale = function() {
-		var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-		for(var i = 0; i < imageData.data.length; i += 4){
-            		var avg = (imageData.data[i] + imageData.data[i + 1] + imageData.data[i + 2]) / 3;  
-            		imageData.data[i] = avg;   
-            		imageData.data[i + 1] = avg;   
-            		imageData.data[i + 2] = avg;  
+		let img_data = ctx.getImageData(0,0,canvas.width, canvas.height);
+		let img_data2 = ctx2.createImageData(img_data);
+		ctx2.putImageData(img_data2, 0, 0);
+		for(let i=0; i<canvas.height; i++){
+			for(let j=0; j<canvas.width; j++){
+				for(let k=0; k<4; k++) {
+					img_data2.data[4*(i*canvas.width+j)+k] = img_data.data[4*(i*canvas.width+j)+k];
+				}
+			}
 		}
-		ctx2.putImageData(imageData, 0, 0);
-		
+		ctx2.putImageData(img_data2, 0, 0);
 	};
-	var grayscalebtn = document.getElementById('btn');
-	grayscalebtn.addEventListener('click', grayscale);
 
+
+	
 </script>
-
-</BODY>
+</BODY>	
 </HTML>
